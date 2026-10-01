@@ -1,0 +1,15 @@
+# Dossiers générés par Unreal (ne pas mettre sur GitHub)
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+Build/
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
