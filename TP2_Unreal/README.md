@@ -15,7 +15,8 @@ Petit niveau en greyboxing (template Third Person) où le joueur doit récupére
 ## Condition de victoire
 
 Le niveau est terminé seulement quand le joueur possède **en même temps**
-3 coffres **ET** 10 pièces. Un message s'affiche et le jeu se met en pause.
+3 coffres **ET** 10 pièces. Un Print String « NIVEAU TERMINÉ ! » s'affiche et
+le jeu se met en pause (`Set Game Paused`).
 
 ## Architecture (séparation des responsabilités)
 
@@ -28,10 +29,8 @@ Le niveau est terminé seulement quand le joueur possède **en même temps**
 | `BP_Coin` | Actor | Pièce réutilisable : ramassée au contact, puis détruite |
 | `PS_Collector` | PlayerState | Stocke `CoinCount` / `ChestCount`, affiche les Print String, diffuse `OnCollectiblesChanged` |
 | `GM_Collect` | GameMode | Écoute le Player State et valide la condition de victoire (pause) |
-| `BP_Lever` | Actor | Élément interactif : actionné avec E, ouvre la porte ciblée |
-| `BP_Door` | Actor | Porte qui s'ouvre par animation (Timeline) |
-| `BP_MovingPlatform` | Actor | Plateforme mobile pour le défi de platforming |
-| `WBP_HUD` / `BP_HUD` | Widget / HUD | **Bonus** : compteurs à l'écran + invite d'interaction |
+| `BP_Lever` | Actor | Élément interactif : actionné avec E, ouvre la porte ciblée (`TargetDoor`) |
+| `BP_Door` | Actor | Porte qui descend dans le sol par animation (Timeline) |
 
 ### Communication entre Blueprints
 
@@ -39,7 +38,6 @@ Le niveau est terminé seulement quand le joueur possède **en même temps**
 Personnage --(interface Interact)--> Coffre / Levier
 Coffre / Pièce --(AddChest / AddCoin)--> PS_Collector
 PS_Collector --(Event Dispatcher OnCollectiblesChanged)--> GM_Collect (victoire)
-                                                       --> WBP_HUD   (affichage)
 Levier --(référence TargetDoor)--> Porte
 ```
 
@@ -49,13 +47,16 @@ pas comment on gagne (c'est le rôle du Game Mode).
 
 ## Design du niveau
 
-- **Place centrale** (spawn) : 3 pièces + levier
-- **Salle fermée** derrière la porte rouge (ouverte par le levier) : coffre 2 + 2 pièces
-- **Parcours de plateformes** : coffre 1 + 3 pièces
-- **Tour** accessible par plateforme mobile : coffre 3 + 2 pièces
+- **Départ** : point d'apparition, pièces et levier
+- **Salle fermée** (porte rouge) : ouverte seulement par le levier — 1 coffre + 2 pièces
+- **Salle 2** : pièces cachées à l'intérieur, éclairée par une lampe
+- **Parcours de plateformes** : escalier de blocs à franchir en sautant — 3 pièces + 1 coffre en haut
+- **Tour** : accessible par une rampe — 2 pièces sur la rampe + 1 coffre au sommet
 
-## Installation
+Tout est construit en greyboxing (formes de base et matériaux simples créés dans le projet).
+
+## Ouvrir le projet
 
 1. Cloner le dépôt (avec Git LFS installé : `git lfs install`)
 2. Ouvrir le fichier `.uproject` avec Unreal Engine 5
-3. Lancer `L_Collect` et appuyer sur Play
+3. Lancer le niveau `L_Collect` et appuyer sur Play
