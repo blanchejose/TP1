@@ -25,8 +25,8 @@ le jeu se met en pause (`Set Game Paused`).
 | `IA_Interact` | Input Action | Action « Interagir » liée à la touche E dans `IMC_Default` |
 | `BPI_Interactable` | Blueprint Interface | Contrat commun pour tout objet activable avec E |
 | `BP_ThirdPersonCharacter` | Character | Lit l'input E et appelle `Interact` sur l'objet interactif à proximité |
-| `BP_Chest` | Actor | Coffre réutilisable : ouverture animée du couvercle (Timeline), une seule fois |
-| `BP_Coin` | Actor | Pièce réutilisable : ramassée au contact, puis détruite |
+| `BP_Chest` | Actor | Coffre réutilisable en bois (fond + 4 parois + couvercle) : ouverture animée du couvercle (Timeline), une seule fois |
+| `BP_Coin` | Actor | Pièce réutilisable qui tourne sur elle-même (Rotating Movement) : ramassée au contact, puis détruite |
 | `PS_Collector` | PlayerState | Stocke `CoinCount` / `ChestCount`, affiche les Print String, diffuse `OnCollectiblesChanged` |
 | `GM_Collect` | GameMode | Écoute le Player State et valide la condition de victoire (pause) |
 | `BP_Lever` | Actor | Élément interactif : actionné avec E, ouvre la porte ciblée (`TargetDoor`) |
@@ -62,7 +62,8 @@ Les pièces sont cachées pour qu'on n'en voie presque aucune depuis le départ.
 ## HUD (bonus)
 
 `WBP_HUD` est créé au `BeginPlay` du personnage (`Create Widget` → `Add to Viewport`).
-Ses textes sont liés (binding) aux compteurs de `PS_Collector`. Les Print String
+Ses textes sont liés (binding) aux compteurs de `PS_Collector`, et un grand texte
+« NIVEAU TERMINÉ ! » devient visible quand les 3 coffres et les 10 pièces sont réunis. Les Print String
 exigés par l'énoncé sont conservés.
 
 Tout est construit en greyboxing (formes de base et matériaux simples créés dans le projet).
